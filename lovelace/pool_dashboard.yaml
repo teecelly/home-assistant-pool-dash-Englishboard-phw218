@@ -5,16 +5,16 @@ cards:
       <small> {% set updates = [
         states.sensor.water_quality_ph.last_updated,
         states.sensor.water_quality_oxidation_reduction_potential.last_updated,
-        states.sensor.water_quality_temperatura.last_updated,
+        states.sensor.water_quality_Temperature.last_updated,
         states.sensor.water_quality_total_dissolved_solids.last_updated,
         states.sensor.water_quality_electrical_conductivity.last_updated,
         states.sensor.water_quality_salinity.last_updated,
         states.sensor.water_quality_specific_gravity.last_updated
-      ] %} {% set ultima = updates | max %} {% set ahora = now() %} {% set
-      minutos = ((ahora - ultima).total_seconds() / 60) | round(0) %}
+      ] %} {% set last = updates | max %} {% set now = now() %} {% set
+      minutes = ((now - last).total_seconds() / 60) | round(0) %}
 
-      Última actualización de datos:   {{ ultima.strftime('%Y-%m-%d %H:%M') }}
-      (hace {{ minutos }} minuto{{ 's' if minutos != 1 }}) </small>
+      Latest data update:   {{ last.strftime('%Y-%m-%d %H:%M') }}
+      (does {{ minutes }} minute{{ 's' if minutes != 1 }}) </small>
     card_mod:
       style: |
         ha-markdown {
@@ -37,11 +37,11 @@ cards:
               {% else %}
                 {% set ph = ph | float %}
               {% endif %} {% if ph < 7 %}
-                🟠 **ALERTA:** El valor de **pH** es **bajo** ({{ ph }}).
+                🟠 **ALERT:** The value of **pH** is **low** ({{ ph }}).
               {% elif ph > 7.8 %}
-                🔴 **ALERTA:** El valor de **pH** es **alto** ({{ ph }}).
+                🔴 **ALERT:** The value of **pH** is **high** ({{ ph }}).
               {% else %}
-                🟢 **pH dentro del rango óptimo** ({{ ph }})
+                🟢 **pH within the optimal range** ({{ ph }})
               {% endif %}
           - type: custom:mini-graph-card
             name: pH
@@ -67,11 +67,11 @@ cards:
               {% else %}
                 {% set orp = orp | float %}
               {% endif %} {% if orp < 650 %}
-                🟠 **ALERTA:** ORP bajo ({{ orp }} mV)
+                🟠 **ALERT:** ORP low ({{ orp }} mV)
               {% elif orp > 750 %}
-                🔴 **ALERTA:** ORP muy alto ({{ orp }} mV)
+                🔴 **ALERT:** ORP very high ({{ orp }} mV)
               {% else %}
-                🟢 **ORP en rango correcto** ({{ orp }} mV)
+                🟢 **ORP within the correct range** ({{ orp }} mV)
               {% endif %}
           - type: custom:mini-graph-card
             name: ORP (Redox)
@@ -90,22 +90,22 @@ cards:
         cards:
           - type: markdown
             content: >
-              {% set temp = states('sensor.water_quality_temperatura') %} {% if
+              {% set temp = states('sensor.water_quality_Temperature') %} {% if
               temp in ['unknown', 'unavailable', 'none'] %}
-                {% set temp = states('input_number.temperatura_last_valid') | float %}
+                {% set temp = states('input_number.Temperature_last_valid') | float %}
               {% else %}
                 {% set temp = temp | float %}
               {% endif %} {% if temp < 22 %}
-                🟠 **Temperatura baja** ({{ temp }}°C)
+                🟠 **Temperature low** ({{ temp }}°C)
               {% elif temp > 32 %}
-                🔴 **Temperatura alta** ({{ temp }}°C)
+                🔴 **Temperature high** ({{ temp }}°C)
               {% else %}
-                🟢 **Temperatura correcta** ({{ temp }}°C)
+                🟢 **Temperature correct** ({{ temp }}°C)
               {% endif %}
           - type: custom:mini-graph-card
-            name: Temperatura da auga
+            name: Water Temperature
             entities:
-              - sensor.water_quality_temperatura
+              - sensor.water_quality_Temperature
             line_color: "#ff3366"
             line_width: 4
             font_size: 90
@@ -125,14 +125,14 @@ cards:
               {% else %}
                 {% set tds = tds | float %}
               {% endif %} {% if tds < 3000 %}
-                🟠 **TDS bajo** ({{ tds }} ppm)
+                🟠 **TDS low** ({{ tds }} ppm)
               {% elif tds > 6000 %}
-                🔴 **TDS alto** ({{ tds }} ppm)
+                🔴 **TDS high** ({{ tds }} ppm)
               {% else %}
-                🟢 **TDS dentro del rango aceptable** ({{ tds }} ppm)
+                🟢 **TDS within the acceptable range** ({{ tds }} ppm)
               {% endif %}
           - type: custom:mini-graph-card
-            name: TDS (Sólidos disoltos)
+            name: TDS (Dissolved Solids)
             entities:
               - sensor.water_quality_total_dissolved_solids
             line_color: "#ffff66"
@@ -150,18 +150,18 @@ cards:
             content: >
               {% set ec = states('sensor.water_quality_electrical_conductivity')
               %} {% if ec in ['unknown', 'unavailable', 'none'] %}
-                {% set ec = states('input_number.conductividad_last_valid') | float %}
+                {% set ec = states('input_number.conductivity_last_valid') | float %}
               {% else %}
                 {% set ec = ec | float %}
               {% endif %} {% if ec < 5000 %}
-                🟠 **Conductividad baja** ({{ ec }} µS/cm)
+                🟠 **conductivity low** ({{ ec }} µS/cm)
               {% elif ec > 12000 %}
-                🔴 **Conductividad alta** ({{ ec }} µS/cm)
+                🔴 **conductivity high** ({{ ec }} µS/cm)
               {% else %}
-                🟢 **Conductividad en rango** ({{ ec }} µS/cm)
+                🟢 **conductivity in range** ({{ ec }} µS/cm)
               {% endif %}
           - type: custom:mini-graph-card
-            name: Conductividade (µS/cm)
+            name: conductivity (µS/cm)
             entities:
               - sensor.water_quality_electrical_conductivity
             line_color: "#cccccc"
@@ -179,18 +179,18 @@ cards:
             content: >
               {% set sal = states('sensor.water_quality_salinity') %} {% if sal
               in ['unknown', 'unavailable', 'none'] %}
-                {% set sal = states('input_number.salinidad_last_valid') | float %}
+                {% set sal = states('input_number.salinity_last_valid') | float %}
               {% else %}
                 {% set sal = sal | float %}
               {% endif %} {% if sal < 3500 %}
-                🟠 **Salinidad baja** ({{ sal }} ppm)
+                🟠 **salinity low** ({{ sal }} ppm)
               {% elif sal > 7000 %}
-                🔴 **Salinidad alta** ({{ sal }} ppm)
+                🔴 **salinity high** ({{ sal }} ppm)
               {% else %}
-                🟢 **Salinidad correcta** ({{ sal }} ppm)
+                🟢 **salinity correct** ({{ sal }} ppm)
               {% endif %}
           - type: custom:mini-graph-card
-            name: Salinidade (ppm)
+            name: salinity (ppm)
             entities:
               - sensor.water_quality_salinity
             line_color: "#ff884d"
@@ -212,14 +212,14 @@ cards:
               {% else %}
                 {% set sg = sg | float %}
               {% endif %} {% if sg < 0.995 %}
-                🟠 **Densidad específica baja** ({{ sg }})
+                🟠 **Specific gravity low** ({{ sg }})
               {% elif sg > 1.005 %}
-                🔴 **Densidad específica alta** ({{ sg }})
+                🔴 **Specific gravity high** ({{ sg }})
               {% else %}
-                🟢 **Densidad específica en rango** ({{ sg }})
+                🟢 **Specific gravity in range** ({{ sg }})
               {% endif %}
           - type: custom:mini-graph-card
-            name: Densidade específica (SG)
+            name: Specific Gravity (SG)
             entities:
               - sensor.water_quality_specific_gravity
             line_color: "#66ccff"
