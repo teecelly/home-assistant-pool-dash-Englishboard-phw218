@@ -1,6 +1,6 @@
-# Automatizaciones para guardar el último valor válido cuando el sensor está disponible
+# Automations to save the last valid value when the sensor is available
 
-- alias: Guardar último valor válido de pH
+- alias: Save last valid pH value
   trigger:
     - platform: state
       entity_id: sensor.water_quality_ph
@@ -13,7 +13,7 @@
         entity_id: input_number.ph_last_valid
         value: "{{ states('sensor.water_quality_ph') | float }}"
 
-- alias: Guardar último valor válido de ORP
+- alias: Save last valid ORP value
   trigger:
     - platform: state
       entity_id: sensor.water_quality_oxidation_reduction_potential
@@ -26,20 +26,20 @@
         entity_id: input_number.orp_last_valid
         value: "{{ states('sensor.water_quality_oxidation_reduction_potential') | float }}"
 
-- alias: Guardar último valor válido de temperatura
+- alias: Save last valid Temperature value
   trigger:
     - platform: state
-      entity_id: sensor.water_quality_temperatura
+      entity_id: sensor.water_quality_temperature
   condition:
     - condition: template
-      value_template: "{{ states('sensor.water_quality_temperatura') not in ['unknown', 'unavailable', 'none'] }}"
+      value_template: "{{ states('sensor.water_quality_temperature') not in ['unknown', 'unavailable', 'none'] }}"
   action:
     - service: input_number.set_value
       data:
-        entity_id: input_number.temperatura_last_valid
-        value: "{{ states('sensor.water_quality_temperatura') | float }}"
+        entity_id: input_number.temperature_last_valid
+        value: "{{ states('sensor.water_quality_temperature') | float }}"
 
-- alias: Guardar último valor válido de TDS
+- alias: Save last valid TDS value
   trigger:
     - platform: state
       entity_id: sensor.water_quality_total_dissolved_solids
@@ -52,7 +52,7 @@
         entity_id: input_number.tds_last_valid
         value: "{{ states('sensor.water_quality_total_dissolved_solids') | float }}"
 
-- alias: Guardar último valor válido de conductividad
+- alias: Save last valid Conductivity value
   trigger:
     - platform: state
       entity_id: sensor.water_quality_electrical_conductivity
@@ -62,10 +62,10 @@
   action:
     - service: input_number.set_value
       data:
-        entity_id: input_number.conductividad_last_valid
+        entity_id: input_number.conductivity_last_valid
         value: "{{ states('sensor.water_quality_electrical_conductivity') | float }}"
 
-- alias: Guardar último valor válido de salinidad
+- alias: Save last valid Salinity value
   trigger:
     - platform: state
       entity_id: sensor.water_quality_salinity
@@ -75,10 +75,10 @@
   action:
     - service: input_number.set_value
       data:
-        entity_id: input_number.salinidad_last_valid
+        entity_id: input_number.salinity_last_valid
         value: "{{ states('sensor.water_quality_salinity') | float }}"
 
-- alias: Guardar último valor válido de densidad
+- alias: Save last valid Specifig Gravity value
   trigger:
     - platform: state
       entity_id: sensor.water_quality_specific_gravity
@@ -88,5 +88,5 @@
   action:
     - service: input_number.set_value
       data:
-        entity_id: input_number.densidad_last_valid
+        entity_id: input_number.density_last_valid
         value: "{{ states('sensor.water_quality_specific_gravity') | float }}"
